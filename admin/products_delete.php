@@ -7,7 +7,7 @@
 		$conn = $pdo->open();
 
 		try{
-			$stmt = $conn->prepare("DELETE FROM products WHERE id=:id");
+			$stmt = $conn->prepare("DELETE FROM books WHERE id=:id");
 			$stmt->execute(['id'=>$id]);
 
 			$_SESSION['success'] = 'Product deleted successfully';

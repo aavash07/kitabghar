@@ -70,7 +70,7 @@
                         $stmt->execute();
 
                         foreach($stmt as $crow){
-                          $selected = ($crow['id'] == $catid) ? 'selected' : ''; 
+                          $selected = ($crow['id'] == $catid) ? 'selected' : '';
                           echo "
                             <option value='".$crow['id']."' ".$selected.">".$crow['name']."</option>
                           ";
@@ -86,9 +86,13 @@
             <div class="box-body">
               <table id="example1" class="table table-bordered">
                 <thead>
-                  <th>Name</th>
+                  <th>ISBN</th>
+                  <th>title</th>
+                  <th>Author</th>
+                  <th>Publisher</th>
+                  <th>Publication Year</th>
                   <th>Photo</th>
-                  <th>Description</th>
+                  <th>Overview</th>
                   <th>Price</th>
                   <th>Views Today</th>
                   <th>Tools</th>
@@ -99,14 +103,18 @@
 
                     try{
                       $now = date('Y-m-d');
-                      $stmt = $conn->prepare("SELECT * FROM products $where");
+                      $stmt = $conn->prepare("SELECT * FROM books $where");
                       $stmt->execute();
                       foreach($stmt as $row){
                         $image = (!empty($row['photo'])) ? '../images/'.$row['photo'] : '../images/noimage.jpg';
                         $counter = ($row['date_view'] == $now) ? $row['counter'] : 0;
                         echo "
                           <tr>
-                            <td>".$row['name']."</td>
+                            <td>".$row['isbn']."</td>
+                            <td>".$row['title']."</td>
+                            <td>".$row['author']."</td>
+                            <td>".$row['publisher']."</td>
+                            <td>".$row['publication_year']."</td>
                             <td>
                               <img src='".$image."' height='30px' width='30px'>
                               <span class='pull-right'><a href='#edit_photo' class='photo' data-toggle='modal' data-id='".$row['id']."'><i class='fa fa-edit'></i></a></span>
@@ -135,7 +143,7 @@
         </div>
       </div>
     </section>
-     
+
   </div>
   	<?php include 'includes/footer.php'; ?>
     <?php include 'includes/products_modal.php'; ?>
@@ -205,13 +213,17 @@ function getRow(id){
     data: {id:id},
     dataType: 'json',
     success: function(response){
-      $('#desc').html(response.description);
-      $('.name').html(response.prodname);
-      $('.prodid').val(response.prodid);
-      $('#edit_name').val(response.prodname);
+      $('#desc').html(response.overview);
+      $('.title').html(response.booktitle);
+      $('.prodid').val(response.bookid);
+        $('#edit_isbn').val(response.bookisbn);
+        $('#edit_author').val(response.bookauthor);
+        $('#edit_publisher').val(response.bookpublisher);
+        $('#edit_publication_year').val(response.bookpubyear);
+      $('#edit_title').val(response.booktitle);
       $('#catselected').val(response.category_id).html(response.catname);
       $('#edit_price').val(response.price);
-      CKEDITOR.instances["editor2"].setData(response.description);
+      CKEDITOR.instances["editor2"].setData(response.overview);
       getCategory();
     }
   });
