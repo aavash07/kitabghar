@@ -19,7 +19,7 @@
 		        			<thead>
 		        				<th></th>
 		        				<th>Photo</th>
-		        				<th>Title</th>
+		        				<th>Name</th>
 		        				<th>Price</th>
 		        				<th width="20%">Quantity</th>
 		        				<th>Subtotal</th>
