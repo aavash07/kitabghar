@@ -79,12 +79,12 @@
                     $conn = $pdo->open();
 
                     try{
-                      $stmt = $conn->prepare("SELECT *, cart.id AS cartid FROM cart LEFT JOIN products ON products.id=cart.product_id WHERE user_id=:user_id");
+                      $stmt = $conn->prepare("SELECT *, cart.id AS cartid FROM cart LEFT JOIN books ON books.id=cart.product_id WHERE user_id=:user_id");
                       $stmt->execute(['user_id'=>$user['id']]);
                       foreach($stmt as $row){
                         echo "
                           <tr>
-                            <td>".$row['name']."</td>
+                            <td>".$row['title']."</td>
                             <td>".$row['quantity']."</td>
                             <td>
                               <button class='btn btn-success btn-sm edit btn-flat' data-id='".$row['cartid']."'><i class='fa fa-edit'></i> Edit Quantity</button>
