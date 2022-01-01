@@ -37,7 +37,7 @@
 
 		       			try{
 		       			 	$inc = 3;	
-						    $stmt = $conn->prepare("SELECT * FROM products WHERE category_id = :catid");
+						    $stmt = $conn->prepare("SELECT * FROM books WHERE category_id = :catid");
 						    $stmt->execute(['catid' => $catid]);
 						    foreach ($stmt as $row) {
 						    	$image = (!empty($row['photo'])) ? 'images/'.$row['photo'] : 'images/noimage.jpg';
@@ -48,7 +48,7 @@
 	       								<div class='box box-solid'>
 		       								<div class='box-body prod-body'>
 		       									<img src='".$image."' width='100%' height='230px' class='thumbnail'>
-		       									<h5><a href='product.php?product=".$row['slug']."'>".$row['name']."</a></h5>
+		       									<h5><a href='product.php?product=".$row['slug']."'>".$row['title']."</a></h5>
 		       								</div>
 		       								<div class='box-footer'>
 		       									<b>&#36; ".number_format($row['price'], 2)."</b>
