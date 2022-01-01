@@ -18,11 +18,11 @@
 	//page view
 	$now = date('Y-m-d');
 	if($product['date_view'] == $now){
-		$stmt = $conn->prepare("UPDATE products SET counter=counter+1 WHERE id=:id");
+		$stmt = $conn->prepare("UPDATE books SET counter=counter+1 WHERE id=:id");
 		$stmt->execute(['id'=>$product['prodid']]);
 	}
 	else{
-		$stmt = $conn->prepare("UPDATE products SET counter=1, date_view=:now WHERE id=:id");
+		$stmt = $conn->prepare("UPDATE books SET counter=1, date_view=:now WHERE id=:id");
 		$stmt->execute(['id'=>$product['prodid'], 'now'=>$now]);
 	}
 
