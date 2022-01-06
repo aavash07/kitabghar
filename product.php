@@ -14,8 +14,8 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
 	    $stmt = $conn->prepare("SELECT *, books.title AS prodname, category.name AS catname, books.id AS prodid FROM books LEFT JOIN category ON category.id=books.category_id WHERE slug = :slug");
 	    $stmt->execute(['slug' => $slug]);
 	    $product = $stmt->fetch();
-        $stmtrate = $conn->prepare("SELECT * FROM ratings WHERE isbn = :isbn AND user_id= :uid");
         if(isset($_SESSION['user'])){
+            $stmtrate = $conn->prepare("SELECT * FROM ratings WHERE isbn = :isbn AND user_id= :uid");
             $stmtrate->execute(['isbn' => $product['isbn'], 'uid'=>$user['id']]);
             $rating = $stmtrate->fetch();
         }
@@ -119,7 +119,11 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
                                 </select>
                             </div>
 
-                            <input type="hidden" value="<?php echo $rating['book_rating']; ?>" name="old_rating">
+                            <input type="hidden" value="<?php
+                            if(isset($rating['book_rating'])){
+                                echo $rating['book_rating'];
+                            }
+                            ?>" name="old_rating">
                             <input type="hidden" value="<?php echo $product['isbn']; ?>" name="id">
                             <button type="submit" class="btn btn-primary btn-lg btn-flat">Submit</button>
                         </div>
@@ -134,21 +138,26 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
                             <tbody>
                         <?php
                         $limit=0;
+                        $skip=0;
+                        $count = 0;
                         if (isset($rating['book_rating'])){
                         foreach ($recval as $key=>$value){
-                            $stmtbook = $conn->prepare("SELECT * FROM books WHERE isbn=:isbn");
-                            $stmtbook->execute(['isbn' => $key]);
-                            $book = $stmtbook->fetch();
+                            if($skip>5) {
+
+                                $stmtbook = $conn->prepare("SELECT * FROM books WHERE isbn=:isbn");
+                                $stmtbook->execute(['isbn' => $key]);
+                                $book = $stmtbook->fetch();
                         ?>
                             <tr>
                                 <td><?php echo $book['title']; ?></td>
                             </tr>
                             </tbody>
                             <?php
-
-                            if($limit==5)
+                            }
+                            if($limit>10)
                                 break;
                             $limit++;
+                            $skip++;
                             }
                         }
                         ?>

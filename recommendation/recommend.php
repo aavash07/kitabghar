@@ -36,7 +36,6 @@ function getRecommendation($matrix,$person)
 	$total=array();
 	$simsums=array();
 	$ranks=array();
-	print_r(sizeof($matrix));
 	foreach($matrix as $otherperson=>$value)
 	{
 		if($otherperson!=$person)

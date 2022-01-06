@@ -8,10 +8,9 @@
     $isbn = $_POST['id'];
     $rating = $_POST['rating'];
     $old_rating = $_POST['old_rating'];
-    echo $old_rating;
 
 if(isset($_SESSION['user'])){
-    if(isset($old_rating)){
+    if(isset($old_rating)&& !empty($old_rating)){
         $stmt = $conn->prepare("UPDATE ratings set book_rating= :rating where isbn=:isbn");
         $stmt->execute(['isbn'=>$isbn, 'rating'=>$rating]);
         $output['message'] = 'Rating modified successfully';
