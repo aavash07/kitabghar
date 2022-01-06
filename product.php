@@ -138,29 +138,25 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
                             <tbody>
                         <?php
                         $limit=0;
-                        $skip=0;
-                        $count = 0;
                         if (isset($rating['book_rating'])){
                         foreach ($recval as $key=>$value){
-                            if($skip>5) {
-
-                                $stmtbook = $conn->prepare("SELECT * FROM books WHERE isbn=:isbn");
-                                $stmtbook->execute(['isbn' => $key]);
-                                $book = $stmtbook->fetch();
+                            $stmtbook = $conn->prepare("SELECT * FROM books WHERE isbn=:isbn");
+                            $stmtbook->execute(['isbn' => $key]);
+                            $book = $stmtbook->fetch();
+                            if(isset($book)&& !empty($book)){
                         ?>
                             <tr>
                                 <td><?php echo $book['title']; ?></td>
                             </tr>
-                            </tbody>
                             <?php
                             }
-                            if($limit>10)
+                            if($limit==10)
                                 break;
                             $limit++;
-                            $skip++;
                             }
                         }
                         ?>
+                            </tbody>
                         </table>
                     </div>
                 </div>
