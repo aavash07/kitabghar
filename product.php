@@ -129,6 +129,10 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
                         </div>
                     </form>
                     <div>
+                        <?php
+                        $limit=0;
+                        if (isset($rating['book_rating'])){
+                            ?>
                         <table class="table table-data2">
                             <thead>
                             <tr>
@@ -137,8 +141,6 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
                             </thead>
                             <tbody>
                         <?php
-                        $limit=0;
-                        if (isset($rating['book_rating'])){
                         foreach ($recval as $key=>$value){
                             $stmtbook = $conn->prepare("SELECT * FROM books WHERE isbn=:isbn");
                             $stmtbook->execute(['isbn' => $key]);
