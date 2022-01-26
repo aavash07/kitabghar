@@ -24,23 +24,48 @@
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title"><b>Add New Product</b></h4>
+              <h4 class="modal-title"><b>Add New Book</b></h4>
             </div>
             <div class="modal-body">
               <form class="form-horizontal" method="POST" action="products_add.php" enctype="multipart/form-data">
                 <div class="form-group">
-                  <label for="name" class="col-sm-1 control-label">Name</label>
+                  <label for="isbn" class="col-sm-1 control-label">ISBN</label>
 
                   <div class="col-sm-5">
-                    <input type="text" class="form-control" id="name" name="name" required>
+                    <input type="text" class="form-control" id="isbn" name="isbn" required>
                   </div>
+                    <label for="title" class="col-sm-1 control-label">Title</label>
 
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                </div>
+                <div class="form-group">
                   <label for="category" class="col-sm-1 control-label">Category</label>
 
                   <div class="col-sm-5">
                     <select class="form-control" id="category" name="category" required>
                       <option value="" selected>- Select -</option>
                     </select>
+                  </div>
+
+                    <label for="publication_year" class="col-sm-1 control-label">Publication Year</label>
+
+                    <div class="col-sm-5">
+                        <input type="date" class="form-control" id="publication_year" name="publication_year" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label for="publisher" class="col-sm-1 control-label">Publisher</label>
+
+                  <div class="col-sm-5">
+                      <input type="text" class="form-control" id="publisher" name="publisher" required>
+                  </div>
+
+                  <label for="author" class="col-sm-1 control-label">Author</label>
+
+                  <div class="col-sm-5">
+                      <input type="text" class="form-control" id="author" name="author" required>
                   </div>
                 </div>
                 <div class="form-group">
@@ -56,10 +81,10 @@
                     <input type="file" id="photo" name="photo">
                   </div>
                 </div>
-                <p><b>Description</b></p>
+                <p><b>Overview</b></p>
                 <div class="form-group">
                   <div class="col-sm-12">
-                    <textarea id="editor1" name="description" rows="10" cols="80" required></textarea>
+                    <textarea id="editor1" name="overview" rows="10" cols="80" required></textarea>
                   </div>
                   
                 </div>

@@ -3,11 +3,15 @@
 	include 'includes/slugify.php';
 
 	if(isset($_POST['add'])){
-		$name = $_POST['name'];
-		$slug = slugify($name);
+	    $isbn = $_POST['isbn'];
+		$title = $_POST['title'];
+		$slug = slugify($title);
 		$category = $_POST['category'];
 		$price = $_POST['price'];
-		$description = $_POST['description'];
+		$overview = $_POST['overview'];
+		$publisher = $_POST['publisher'];
+		$author = $_POST['author'];
+		$publication_year = $_POST['publication_year'];
 		$filename = $_FILES['photo']['name'];
 
 		$conn = $pdo->open();
@@ -30,9 +34,9 @@
 			}
 
 			try{
-				$stmt = $conn->prepare("INSERT INTO products (category_id, name, description, slug, price, photo) VALUES (:category, :name, :description, :slug, :price, :photo)");
-				$stmt->execute(['category'=>$category, 'name'=>$name, 'description'=>$description, 'slug'=>$slug, 'price'=>$price, 'photo'=>$new_filename]);
-				$_SESSION['success'] = 'User added successfully';
+				$stmt = $conn->prepare("INSERT INTO books (category_id, isbn, title, author, publisher, publication_year, overview, slug, price, photo) VALUES (:category, :isbn,:title, :author, :publisher, :publication_year, :overview, :slug, :price, :photo)");
+				$stmt->execute(['category'=>$category, 'title'=>$title, 'isbn'=>$isbn, 'publisher'=>$publisher,'author'=>$author, 'publication_year'=>$publication_year,'overview'=>$overview, 'slug'=>$slug, 'price'=>$price, 'photo'=>$new_filename]);
+				$_SESSION['success'] = 'Product added successfully';
 
 			}
 			catch(PDOException $e){

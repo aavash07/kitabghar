@@ -4,17 +4,21 @@
 
 	if(isset($_POST['edit'])){
 		$id = $_POST['id'];
-		$name = $_POST['name'];
-		$slug = slugify($name);
-		$category = $_POST['category'];
-		$price = $_POST['price'];
-		$description = $_POST['description'];
+        $isbn = $_POST['isbn'];
+        $title = $_POST['title'];
+        $slug = slugify($title);
+        $category = $_POST['category'];
+        $price = $_POST['price'];
+        $overview = $_POST['overview'];
+        $publisher = $_POST['publisher'];
+        $author = $_POST['author'];
+        $publication_year = $_POST['publication_year'];
 
 		$conn = $pdo->open();
 
 		try{
-			$stmt = $conn->prepare("UPDATE products SET name=:name, slug=:slug, category_id=:category, price=:price, description=:description WHERE id=:id");
-			$stmt->execute(['name'=>$name, 'slug'=>$slug, 'category'=>$category, 'price'=>$price, 'description'=>$description, 'id'=>$id]);
+			$stmt = $conn->prepare("UPDATE books SET title=:title, isbn=:isbn, publisher=:publisher, publication_year=:publication_year, author=:author, slug=:slug, category_id=:category, price=:price, overview=:overview WHERE id=:id");
+			$stmt->execute(['title'=>$title, 'publisher'=>$publisher, 'author'=>$author,'isbn'=>$isbn, 'publication_year'=>$publication_year, 'slug'=>$slug, 'category'=>$category, 'price'=>$price, 'overview'=>$overview, 'id'=>$id]);
 			$_SESSION['success'] = 'Product updated successfully';
 		}
 		catch(PDOException $e){
