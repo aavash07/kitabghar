@@ -40,7 +40,7 @@
 						    $stmt = $conn->prepare("SELECT * FROM books WHERE category_id = :catid");
 						    $stmt->execute(['catid' => $catid]);
 						    foreach ($stmt as $row) {
-						    	$image = (!empty($row['photo'])) ? 'images/'.$row['photo'] : 'images/noimage.jpg';
+						    	$image = (!empty($row['photo'])) ? $row['photo'] : 'images/noimage.jpg';
 						    	$inc = ($inc == 3) ? 1 : $inc + 1;
 	       						if($inc == 1) echo "<div class='row'>";
 	       						echo "

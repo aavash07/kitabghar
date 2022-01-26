@@ -63,6 +63,28 @@ $(function(){
   	});
   });
 
+    $('#ratingForm').submit(function(e){
+        e.preventDefault();
+        var rating = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: 'rating.php',
+            data: rating,
+            dataType: 'json',
+            success: function(response){
+                $('#callout').show();
+                $('.message').html(response.message);
+                $('.refresher').html(response.refresher);
+                if(response.error){
+                    $('#callout').removeClass('callout-success').addClass('callout-danger');
+                }
+                else{
+                    $('#callout').removeClass('callout-danger').addClass('callout-success');
+                }
+            }
+        });
+    });
+
   $(document).on('click', '.close', function(){
   	$('#callout').hide();
   });

@@ -1,4 +1,9 @@
-<?php include 'includes/session.php'; ?>
+<?php
+include 'includes/session.php';
+include 'recommendation/user_recommendation.php';
+include 'barcode/autoload.php';
+$Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
+?>
 <?php
 	$conn = $pdo->open();
 
@@ -9,6 +14,11 @@
 	    $stmt = $conn->prepare("SELECT *, books.title AS prodname, category.name AS catname, books.id AS prodid FROM books LEFT JOIN category ON category.id=books.category_id WHERE slug = :slug");
 	    $stmt->execute(['slug' => $slug]);
 	    $product = $stmt->fetch();
+        if(isset($_SESSION['user'])){
+            $stmtrate = $conn->prepare("SELECT * FROM ratings WHERE isbn = :isbn AND user_id= :uid");
+            $stmtrate->execute(['isbn' => $product['isbn'], 'uid'=>$user['id']]);
+            $rating = $stmtrate->fetch();
+        }
 		
 	}
 	catch(PDOException $e){
@@ -18,11 +28,11 @@
 	//page view
 	$now = date('Y-m-d');
 	if($product['date_view'] == $now){
-		$stmt = $conn->prepare("UPDATE products SET counter=counter+1 WHERE id=:id");
+		$stmt = $conn->prepare("UPDATE books SET counter=counter+1 WHERE id=:id");
 		$stmt->execute(['id'=>$product['prodid']]);
 	}
 	else{
-		$stmt = $conn->prepare("UPDATE products SET counter=1, date_view=:now WHERE id=:id");
+		$stmt = $conn->prepare("UPDATE books SET counter=1, date_view=:now WHERE id=:id");
 		$stmt->execute(['id'=>$product['prodid'], 'now'=>$now]);
 	}
 
@@ -55,7 +65,7 @@
 	        		</div>
 		            <div class="row">
 		            	<div class="col-sm-6">
-		            		<img src="<?php echo (!empty($product['photo'])) ? 'images/'.$product['photo'] : 'images/noimage.jpg'; ?>" width="100%" class="zoom" data-magnify-src="images/large-<?php echo $product['photo']; ?>">
+		            		<img src="<?php echo (!empty($product['photo'])) ? $product['photo'] : 'images/noimage.jpg'; ?>" width="100%" class="zoom" data-magnify-src="images/large-<?php echo $product['photo']; ?>">
 		            		<br><br>
 		            		<form class="form-inline" id="productForm">
 		            			<div class="form-group">
@@ -77,15 +87,83 @@
 		            	</div>
 		            	<div class="col-sm-6">
 		            		<h1 class="page-header"><?php echo $product['prodname']; ?></h1>
+                            <h3><b>ISBN:</b> <p><?php echo $product['isbn']; ?></p><p><?php
+                                    $code = $Bar->getBarcode($product['isbn'], $Bar::TYPE_CODE_128);
+                                    echo $code;
+                                    ?></p></h3>
 		            		<h3><b>&#36; <?php echo number_format($product['price'], 2); ?></b></h3>
 		            		<p><b>Category:</b> <a href="category.php?category=<?php echo $product['cat_slug']; ?>"><?php echo $product['catname']; ?></a></p>
 		            		<p><b>Description:</b></p>
 		            		<p><?php echo $product['overview']; ?></p>
+                            <p><b>Rating: <?php
+                                    if(isset($rating['book_rating'])){
+                                        echo $rating['book_rating'];
+                                        }else{
+                                        echo ' -- ';
+                                    } ?></b></p>
 		            	</div>
 		            </div>
 		            <br>
-				    <div class="fb-comments" data-href="http://localhost/ecommerce/product.php?product=<?php echo $slug; ?>" data-numposts="10" width="100%"></div> 
-	        	</div>
+				    <div class="fb-comments" data-href="http://localhost/ecommerce/product.php?product=<?php echo $slug; ?>" data-numposts="10" width="100%"></div>
+                    <form id="ratingForm" method="post">
+                        <div class="form-group">
+                            <label for="rating" class="col-sm-1 control-label">Rating</label>
+
+                            <div class="col-sm-5">
+                                <select class="form-control" id="rating" name="rating">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+
+                            <input type="hidden" value="<?php
+                            if(isset($rating['book_rating'])){
+                                echo $rating['book_rating'];
+                            }
+                            ?>" name="old_rating">
+                            <input type="hidden" value="<?php echo $product['isbn']; ?>" name="id">
+                            <input type="hidden" value="<?php echo $slug; ?>" name="slug">
+                            <button type="submit" class="btn btn-primary btn-lg btn-flat">Submit</button>
+                            <span class="refresher"></span>
+                        </div>
+                    </form>
+                    <div>
+                        <?php
+                        $limit=0;
+                        if (isset($rating['book_rating'])&&isset($recval)){
+                            ?>
+                        <table class="table table-data2">
+                            <thead>
+                            <tr>
+                                <th>Title</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                        <?php
+                        foreach ($recval as $key=>$value){
+                            $stmtbook = $conn->prepare("SELECT * FROM books WHERE isbn=:isbn");
+                            $stmtbook->execute(['isbn' => $key]);
+                            $book = $stmtbook->fetch();
+                            if(isset($book)&& !empty($book)){
+                        ?>
+                            <tr>
+                                <td><?php echo $book['title']; ?></td>
+                            </tr>
+                            <?php
+                            }
+                            if($limit==10)
+                                break;
+                            $limit++;
+                            }
+                        }
+                        ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 	        	<div class="col-sm-3">
 	        		<?php include 'includes/sidebar.php'; ?>
 	        	</div>
