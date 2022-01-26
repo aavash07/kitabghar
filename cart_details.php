@@ -24,7 +24,7 @@
 
 		try{
 			$total = 0;
-			$stmt = $conn->prepare("SELECT *, cart.id AS cartid FROM cart LEFT JOIN books ON books.id=cart.product_id WHERE user_id=:user");
+			$stmt = $conn->prepare("SELECT *, cart.id AS cartid FROM cart LEFT JOIN products ON products.id=cart.product_id WHERE user_id=:user");
 			$stmt->execute(['user'=>$user['id']]);
 			foreach($stmt as $row){
 				$image = (!empty($row['photo'])) ? 'images/'.$row['photo'] : 'images/noimage.jpg';
@@ -67,7 +67,7 @@
 		if(count($_SESSION['cart']) != 0){
 			$total = 0;
 			foreach($_SESSION['cart'] as $row){
-				$stmt = $conn->prepare("SELECT *, books.name AS prodname, category.name AS catname FROM books LEFT JOIN category ON category.id=books.category_id WHERE books.id=:id");
+				$stmt = $conn->prepare("SELECT *, products.name AS prodname, category.name AS catname FROM products LEFT JOIN category ON category.id=products.category_id WHERE products.id=:id");
 				$stmt->execute(['id'=>$row['productid']]);
 				$product = $stmt->fetch();
 				$image = (!empty($product['photo'])) ? 'images/'.$product['photo'] : 'images/noimage.jpg';

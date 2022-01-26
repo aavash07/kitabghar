@@ -6,7 +6,7 @@
 
 	try{
 		 		
-	    $stmt = $conn->prepare("SELECT *, books.title AS prodname, category.name AS catname, books.id AS prodid FROM books LEFT JOIN category ON category.id=books.category_id WHERE slug = :slug");
+	    $stmt = $conn->prepare("SELECT *, products.name AS prodname, category.name AS catname, products.id AS prodid FROM products LEFT JOIN category ON category.id=products.category_id WHERE slug = :slug");
 	    $stmt->execute(['slug' => $slug]);
 	    $product = $stmt->fetch();
 		
@@ -80,7 +80,7 @@
 		            		<h3><b>&#36; <?php echo number_format($product['price'], 2); ?></b></h3>
 		            		<p><b>Category:</b> <a href="category.php?category=<?php echo $product['cat_slug']; ?>"><?php echo $product['catname']; ?></a></p>
 		            		<p><b>Description:</b></p>
-		            		<p><?php echo $product['overview']; ?></p>
+		            		<p><?php echo $product['description']; ?></p>
 		            	</div>
 		            </div>
 		            <br>
