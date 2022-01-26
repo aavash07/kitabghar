@@ -74,6 +74,7 @@ $(function(){
             success: function(response){
                 $('#callout').show();
                 $('.message').html(response.message);
+                $('.refresher').html(response.refresher);
                 if(response.error){
                     $('#callout').removeClass('callout-success').addClass('callout-danger');
                 }

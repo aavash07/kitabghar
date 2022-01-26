@@ -125,13 +125,15 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
                             }
                             ?>" name="old_rating">
                             <input type="hidden" value="<?php echo $product['isbn']; ?>" name="id">
+                            <input type="hidden" value="<?php echo $slug; ?>" name="slug">
                             <button type="submit" class="btn btn-primary btn-lg btn-flat">Submit</button>
+                            <span class="refresher"></span>
                         </div>
                     </form>
                     <div>
                         <?php
                         $limit=0;
-                        if (isset($rating['book_rating'])){
+                        if (isset($rating['book_rating'])&&isset($recval)){
                             ?>
                         <table class="table table-data2">
                             <thead>

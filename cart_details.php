@@ -27,7 +27,7 @@
 			$stmt = $conn->prepare("SELECT *, cart.id AS cartid FROM cart LEFT JOIN books ON books.id=cart.product_id WHERE user_id=:user");
 			$stmt->execute(['user'=>$user['id']]);
 			foreach($stmt as $row){
-				$image = (!empty($row['photo'])) ? 'images/'.$row['photo'] : 'images/noimage.jpg';
+				$image = (!empty($row['photo'])) ? $row['photo'] : 'images/noimage.jpg';
 				$subtotal = $row['price']*$row['quantity'];
 				$total += $subtotal;
 				$output .= "
@@ -70,14 +70,14 @@
 				$stmt = $conn->prepare("SELECT *, books.title AS prodname, category.name AS catname FROM books LEFT JOIN category ON category.id=books.category_id WHERE books.id=:id");
 				$stmt->execute(['id'=>$row['productid']]);
 				$product = $stmt->fetch();
-				$image = (!empty($product['photo'])) ? 'images/'.$product['photo'] : 'images/noimage.jpg';
+				$image = (!empty($product['photo'])) ? $product['photo'] : 'images/noimage.jpg';
 				$subtotal = $product['price']*$row['quantity'];
 				$total += $subtotal;
 				$output .= "
 					<tr>
 						<td><button type='button' data-id='".$row['productid']."' class='btn btn-danger btn-flat cart_delete'><i class='fa fa-remove'></i></button></td>
 						<td><img src='".$image."' width='30px' height='30px'></td>
-						<td>".$product['name']."</td>
+						<td>".$product['prodname']."</td>
 						<td>&#36; ".number_format($product['price'], 2)."</td>
 						<td class='input-group'>
 							<span class='input-group-btn'>
