@@ -62,7 +62,7 @@
           <div class="small-box bg-aqua">
             <div class="inner">
               <?php
-                $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN products ON products.id=details.product_id");
+                $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN books ON books.id=details.product_id");
                 $stmt->execute();
 
                 $total = 0;
@@ -87,7 +87,7 @@
           <div class="small-box bg-green">
             <div class="inner">
               <?php
-                $stmt = $conn->prepare("SELECT *, COUNT(*) AS numrows FROM products");
+                $stmt = $conn->prepare("SELECT *, COUNT(*) AS numrows FROM books");
                 $stmt->execute();
                 $prow =  $stmt->fetch();
 
@@ -129,7 +129,7 @@
           <div class="small-box bg-red">
             <div class="inner">
               <?php
-                $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN sales ON sales.id=details.sales_id LEFT JOIN products ON products.id=details.product_id WHERE sales_date=:sales_date");
+                $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN sales ON sales.id=details.sales_id LEFT JOIN books ON books.id=details.product_id WHERE sales_date=:sales_date");
                 $stmt->execute(['sales_date'=>$today]);
 
                 $total = 0;
@@ -201,7 +201,7 @@
   $sales = array();
   for( $m = 1; $m <= 12; $m++ ) {
     try{
-      $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN sales ON sales.id=details.sales_id LEFT JOIN products ON products.id=details.product_id WHERE MONTH(sales_date)=:month AND YEAR(sales_date)=:year");
+      $stmt = $conn->prepare("SELECT * FROM details LEFT JOIN sales ON sales.id=details.sales_id LEFT JOIN books ON books.id=details.product_id WHERE MONTH(sales_date)=:month AND YEAR(sales_date)=:year");
       $stmt->execute(['month'=>$m, 'year'=>$year]);
       $total = 0;
       foreach($stmt as $srow){

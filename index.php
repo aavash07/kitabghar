@@ -88,10 +88,39 @@
 	        	<div class="col-sm-3">
 	        		<?php include 'includes/sidebar.php'; ?>
 	        	</div>
+				
+				<div id="contact">
+    <h2 >Contact Me</h2>
+  
+
+    <div>
+      <p> Chicago, US</p>
+      <p>Phone: +00 151515</p>
+      <p> Email: mail@mail.com</p>
+    </div><br>
+    <p>Let's get in touch. Send me a message:</p>
+
+    <form>
+      <p><input type="text" placeholder="Name" required name="Name"></p>
+      <p><input  type="text" placeholder="Email" required name="Email"></p>
+      <p><input  type="text" placeholder="Subject" required name="Subject"></p>
+      <p><input  type="text" placeholder="Message" required name="Message"></p>
+      <p>
+        <button class="w3-button w3-light-grey w3-padding-large" type="submit">
+          <i class="fa fa-paper-plane"></i> SEND MESSAGE
+        </button>
+      </p>
+    </form>
+  <!-- End Contact Section -->
+  </div>
 	        </div>
 	      </section>
 	     
 	    </div>
+	  </div>
+	  <div class="row">
+	  
+  
 	  </div>
   
   	<?php include 'includes/footer.php'; ?>
