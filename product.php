@@ -132,16 +132,11 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
                     </form>
                     <div>
                         <?php
+					
                         $limit=0;
                         if (isset($rating['book_rating'])&&isset($recval)){
                             ?>
-                        <table class="table table-data2">
-                            <thead>
-                            <tr>
-                                <th>Title</th>
-                            </tr>
-                            </thead>
-                            <tbody>
+                        
                         <?php
                         foreach ($recval as $key=>$value){
                             $stmtbook = $conn->prepare("SELECT * FROM books WHERE isbn=:isbn");
@@ -149,9 +144,23 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
                             $book = $stmtbook->fetch();
                             if(isset($book)&& !empty($book)){
                         ?>
-                            <tr>
-                                <td><?php echo $book['title']; ?></td>
-                            </tr>
+                            
+							<?php 
+									echo "
+	       							<div class='col-sm-4'>
+	       								<div class='box box-solid'>
+		       								<div class='box-body prod-body'>
+		       									<img src='".$book['photo']."' width='100%' height='230px' class='thumbnail'>
+		       									<h5><a href='product.php?product=".$book['slug']."'>".$book['title']."</a></h5>
+		       								</div>
+		       								<div class='box-footer'>
+		       									<b>&#36; ".number_format($book['price'], 2)."</b>
+		       								</div>
+	       								</div>
+	       							</div>
+	       						";
+								   ?>
+							
                             <?php
                             }
                             if($limit==10)
@@ -160,14 +169,14 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
                             }
                         }
                         ?>
-                            </tbody>
-                        </table>
+                          
                     </div>
                 </div>
 	        	<div class="col-sm-3">
 	        		<?php include 'includes/sidebar.php'; ?>
 	        	</div>
 	        </div>
+			
 	      </section>
 	     
 	    </div>
