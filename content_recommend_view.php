@@ -65,7 +65,7 @@ include 'content_recommend.php';
                             $limit++;
                             }
                         }else{
-                            echo "You need to be signed in for customized recommendation";
+                            echo "<h2>You need to be signed in for customized recommendation</h2>";
                         }
                         ?>
                           

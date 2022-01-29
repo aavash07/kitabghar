@@ -18,8 +18,6 @@ if (isset($_SESSION['user'])){
     foreach ($stmtInterest as $interest){
         $user_interest[] = $interest['name'];
     }
-}else{
-    echo "You need to be signed in";
 }
 
 $engine = new ContentBasedRecommend($user_interest, $objects);
