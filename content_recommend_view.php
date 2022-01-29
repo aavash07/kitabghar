@@ -29,7 +29,7 @@ include 'content_recommend.php';
                         <?php
 					
                         $limit=0;
-                        if (isset($recommend_result)){
+                        if (isset($recommend_result)&&isset($_SESSION['user'])){
                             ?>
                         
                         <?php
@@ -64,6 +64,8 @@ include 'content_recommend.php';
                                 break;
                             $limit++;
                             }
+                        }else{
+                            echo "You need to be signed in for customized recommendation";
                         }
                         ?>
                           
