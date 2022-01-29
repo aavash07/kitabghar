@@ -96,7 +96,7 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
 		            		<p><b>Description:</b></p>
 		            		<p><?php echo $product['overview']; ?></p>
                             <p><b>Rating: <?php
-                                    if(isset($rating['book_rating'])){
+                                    if(isset($rating['book_rating'])&&isset($_SESSION['user'])){
                                         echo $rating['book_rating'];
                                         }else{
                                         echo ' -- ';
@@ -126,7 +126,7 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
                             ?>" name="old_rating">
                             <input type="hidden" value="<?php echo $product['isbn']; ?>" name="id">
                             <input type="hidden" value="<?php echo $slug; ?>" name="slug">
-                            <button type="submit" class="btn btn-primary btn-lg btn-flat">Submit</button>
+                            <button type="submit" class="btn btn-primary btn-md  btn-flat">Submit</button>
                             <span class="refresher"></span>
                         </div>
                     </form>

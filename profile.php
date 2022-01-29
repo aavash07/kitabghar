@@ -3,6 +3,7 @@
 	if(!isset($_SESSION['user'])){
 		header('location: index.php');
 	}
+$conn = $pdo->open();
 ?>
 <?php include 'includes/header.php'; ?>
 <body class="hold-transition skin-blue layout-top-nav">
@@ -61,6 +62,46 @@
 	        							<h4><?php echo (!empty($user['address'])) ? $user['address'] : 'N/a'; ?></h4>
 	        							<h4><?php echo date('M d, Y', strtotime($user['created_on'])); ?></h4>
 	        						</div>
+                                    <?php
+                                    $stmtcategory=$conn->prepare("SELECT * from category");
+                                    $stmtcategory->execute();
+                                    if (isset($_SESSION['user'])){
+                                        $stmtCurrentInterest=$conn->prepare("SELECT * from interest join category on interest.category_id=category.id having user_id=:uid");
+                                        $stmtCurrentInterest->execute(['uid'=>$user['id']]);
+                                        echo "<label>Current Favourites</label>";
+                                        $allinterest = array();
+                                        if(isset($stmtCurrentInterest)){
+                                            foreach ($stmtCurrentInterest as $interest){
+                                                $allinterest[]=$interest['name'];
+                                                echo " $interest[name],";
+                                            }
+                                        }
+                                    }
+
+
+                                    ?>
+                                    <form id="interestForm" method="post">
+                                        <label>Interests: </label>
+                                        <br>
+                                        <?php
+                                        foreach ($stmtcategory as $category) {
+                                            if (in_array($category['name'],$allinterest)){
+                                                echo "
+                                                <label for='interest'>" . $category['name'] . "</label>
+                                                <input type='checkbox' checked name='interest[]' id='interest' value='".$category['id']."'>
+                                                ";
+                                            }else{
+                                                echo "
+                                                <label for='interest'>" . $category['name'] . "</label>
+                                                <input type='checkbox' id='interest' name='interest[]' value='" . $category['id'] . "'>
+                                                ";
+                                            }
+                                        }
+                                        ?>
+                                        <br>
+                                        <button type="submit" class="btn btn-primary btn-md btn-flat">submit</button>
+                                        <span class="refresher"></span>
+                                    </form>
 	        					</div>
 	        				</div>
 	        			</div>
@@ -80,7 +121,7 @@
 	        					</thead>
 	        					<tbody>
 	        					<?php
-	        						$conn = $pdo->open();
+
 
 	        						try{
 	        							$stmt = $conn->prepare("SELECT * FROM sales WHERE user_id=:user_id ORDER BY sales_date DESC");
