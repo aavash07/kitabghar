@@ -152,6 +152,7 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
 		       								<div class='box-body prod-body'>
 		       									<img src='".$book['photo']."' width='100%' height='230px' class='thumbnail'>
 		       									<h5><a href='product.php?product=".$book['slug']."'>".$book['title']."</a></h5>
+		       									
 		       								</div>
 		       								<div class='box-footer'>
 		       									<b>&#36; ".number_format($book['price'], 2)."</b>
@@ -207,3 +208,5 @@ $(function(){
 </script>
 </body>
 </html>
+
+<!--<h5>Distance: ".($value/5)."</h5>-->

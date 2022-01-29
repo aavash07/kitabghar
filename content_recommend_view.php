@@ -35,7 +35,7 @@ include 'content_recommend.php';
                         <?php
 
                         foreach ($recommend_result as $key=>$value){
-                            $stmtbook = $conn->prepare("SELECT * FROM books WHERE isbn=:isbn");
+                            $stmtbook = $conn->prepare("SELECT * FROM books join category on books.category_id=category.id having isbn=:isbn");
                             $stmtbook->execute(['isbn' => $key]);
                             $book = $stmtbook->fetch();
                             if(isset($book)&& !empty($book)){
@@ -48,6 +48,7 @@ include 'content_recommend.php';
 		       								<div class='box-body prod-body'>
 		       									<img src='".$book['photo']."' width='100%' height='230px' class='thumbnail'>
 		       									<h5><a href='product.php?product=".$book['slug']."'>".$book['title']."</a></h5>
+		       									<h5>Category: ".$book['name']."</h5>
 		       								</div>
 		       								<div class='box-footer'>
 		       									<b>&#36; ".number_format($book['price'], 2)."</b>
@@ -84,3 +85,5 @@ include 'content_recommend.php';
 <?php include 'includes/scripts.php'; ?>
 </body>
 </html>
+
+<!--<h5>Similarity Distance:".$value."</h5>-->
