@@ -16,7 +16,7 @@
 
 		$conn = $pdo->open();
 
-		$stmt = $conn->prepare("SELECT *, COUNT(*) AS numrows FROM products WHERE slug=:slug");
+		$stmt = $conn->prepare("SELECT *, COUNT(*) AS numrows FROM books WHERE slug=:slug");
 		$stmt->execute(['slug'=>$slug]);
 		$row = $stmt->fetch();
 
