@@ -14,7 +14,7 @@
 			$salesid = $conn->lastInsertId();
 			
 			try{
-				$stmt = $conn->prepare("SELECT * FROM cart LEFT JOIN products ON products.id=cart.product_id WHERE user_id=:user_id");
+				$stmt = $conn->prepare("SELECT * FROM cart LEFT JOIN books ON books.id=cart.product_id WHERE user_id=:user_id");
 				$stmt->execute(['user_id'=>$user['id']]);
 
 				foreach($stmt as $row){
