@@ -19,7 +19,10 @@ if (isset($_SESSION['user'])){
         $user_interest[] = $interest['name'];
     }
 }
+if (!empty($user_interest)){
+    $engine = new ContentBasedRecommend($user_interest, $objects);
 
-$engine = new ContentBasedRecommend($user_interest, $objects);
-
-$recommend_result=$engine->getRecommendation();
+    $recommend_result=$engine->getRecommendation();
+}else{
+    $error="Select some Interest in your profile";
+}
