@@ -150,7 +150,7 @@ $Bar = new Picqer\Barcode\BarcodeGeneratorHTML();
 	       							<div class='col-sm-4'>
 	       								<div class='box box-solid'>
 		       								<div class='box-body prod-body'>
-		       									<img src='".$book['photo']."' width='100%' height='230px' class='thumbnail'>
+		       									<img title='Similarity Distance:".$value."' src='".$book['photo']."' width='100%' height='230px' class='thumbnail'>
 		       									<h5><a href='product.php?product=".$book['slug']."'>".$book['title']."</a></h5>
 		       									
 		       								</div>

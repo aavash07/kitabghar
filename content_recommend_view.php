@@ -1,4 +1,9 @@
 <?php
+/**
+ * PHP item based filtering
+ *
+ * @package   PHP item based filtering
+ */
 include 'includes/session.php';
 include 'content_recommend.php';
 ?>
@@ -12,7 +17,7 @@ include 'content_recommend.php';
 <div class="wrapper">
 
 	<?php include 'includes/navbar.php'; ?>
-	 
+
 	  <div class="content-wrapper">
 	    <div class="container">
 
@@ -27,11 +32,11 @@ include 'content_recommend.php';
 
                     <div>
                         <?php
-					
+
                         $limit=0;
                         if (isset($recommend_result)&&isset($_SESSION['user'])){
                             ?>
-                        
+
                         <?php
 
                         foreach ($recommend_result as $key=>$value){
@@ -40,13 +45,13 @@ include 'content_recommend.php';
                             $book = $stmtbook->fetch();
                             if(isset($book)&& !empty($book)){
                         ?>
-                            
-							<?php 
+
+							<?php
 									echo "
 	       							<div class='col-sm-4'>
 	       								<div class='box box-solid'>
 		       								<div class='box-body prod-body'>
-		       									<img src='".$book['photo']."' width='100%' height='230px' class='thumbnail'>
+		       									<img title='Similarity Distance:".$value."' src='".$book['photo']."' width='100%' height='230px' class='thumbnail'>
 		       									<h5><a href='product.php?product=".$book['slug']."'>".$book['title']."</a></h5>
 		       									<h5>Category: ".$book['name']."</h5>
 		       								</div>
@@ -57,27 +62,27 @@ include 'content_recommend.php';
 	       							</div>
 	       						";
 								   ?>
-							
+
                             <?php
                             }
-                            if($limit==10)
-                                break;
+//                            if($limit==10)
+//                                break;
                             $limit++;
                             }
                         }else{
                             echo "<h2>You need to be signed in for customized recommendation OR $error</h2>";
                         }
                         ?>
-                          
+
                     </div>
                 </div>
 	        	<div class="col-sm-3">
 	        		<?php include 'includes/sidebar.php'; ?>
 	        	</div>
 	        </div>
-			
+
 	      </section>
-	     
+
 	    </div>
 	  </div>
   	<?php $pdo->close(); ?>
@@ -87,5 +92,3 @@ include 'content_recommend.php';
 <?php include 'includes/scripts.php'; ?>
 </body>
 </html>
-
-<!--<h5>Similarity Distance:".$value."</h5>-->

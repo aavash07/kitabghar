@@ -1,6 +1,11 @@
 <?php
-require 'contentbased/recommend.php';
-require 'contentbased/content_based.php';
+/**
+ * PHP item based filtering
+ *
+ * @package   PHP item based filtering
+ */
+require_once 'contentbased/recommend.php';
+require_once 'contentbased/content_based.php';
 
 $conn = $pdo->open();
 $stmtbooks = $conn->prepare("SELECT * FROM books join category on books.category_id=category.id");
