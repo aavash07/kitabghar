@@ -2,15 +2,17 @@
 
 /**
  * PHP item based filtering
+ *
+ * @package   PHP item based filtering
  */
 class ContentBasedRecommend extends Recommend
 {
 	const USER_ID = '__USER__';
 	protected $data;
 
-	function __construct($users, $objects)
+	function __construct($user, $objects)
 	{
-		$this->data[self::USER_ID] = $this->processUser($users);
+		$this->data[self::USER_ID] = $this->processUser($user);
 		$this->data = array_merge($this->data, $this->processObjects($objects));
 	}
 
@@ -28,11 +30,11 @@ class ContentBasedRecommend extends Recommend
 		return $result;
 	}
 
-	protected function processUser($users)
+	protected function processUser($user)
 	{
 		$result = [];
 
-		foreach ($users as $tag) {
+		foreach ($user as $tag) {
 			$result[$tag] = 1.0;
 		}
 
